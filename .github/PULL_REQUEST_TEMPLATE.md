@@ -1,34 +1,34 @@
-## What changed
+## Что изменилось
 
-<!-- Describe the observable behavior. -->
+<!-- Опиши наблюдаемое поведение. -->
 
-Closes #
+Закрывает #
 
-## Approach
+## Подход
 
-<!-- Explain the main design choice and why it is sufficient for this issue. -->
+<!-- Какое основное решение принято и почему его достаточно для этой задачи? -->
 
-## Edge cases
+## Границы и особые случаи
 
-<!-- List the important invalid, unsupported, or boundary cases considered. -->
+<!-- Какие невалидные, неподдерживаемые и граничные сценарии проверены? -->
 
-## Verification
+## Проверка
 
 ```text
-# Commands and results
+# Команды и результаты
 ```
 
-## Learning notes
+## Заметки об обучении
 
-- What I decided myself:
-- What AI helped with:
-- What I learned:
-- What is still unclear:
+- Что я решил сам:
+- С чем помог AI:
+- Что я понял:
+- Что пока осталось неясным:
 
-## Checklist
+## Чек-лист
 
-- [ ] The change stays within the linked issue and current milestone.
-- [ ] New or changed behavior is covered by tests.
-- [ ] Mandatory checks are deterministic and offline.
-- [ ] Documentation matches implemented behavior.
-- [ ] The diff contains no secrets, debug output, generated junk, or unrelated cleanup.
+- [ ] Изменение не выходит за границы связанной issue и текущего этапа.
+- [ ] Новое или изменённое поведение покрыто тестами.
+- [ ] Обязательные проверки детерминированы и работают офлайн.
+- [ ] Документация соответствует фактическому поведению.
+- [ ] В diff нет секретов, отладочного вывода, сгенерированного мусора и несвязанных чисток.

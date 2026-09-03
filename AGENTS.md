@@ -1,56 +1,57 @@
-# Instructions for AI assistants
+# Инструкции для AI-агентов
 
-## Repository purpose
+## Назначение репозитория
 
-This is a learning-first Python project that should also become a useful GitLab CI analysis tool. Preserve both goals.
+Это учебный Python-проект, который должен стать полезным инструментом анализа GitLab CI. Нужно сохранять обе цели.
 
-Read `README.md`, `ROADMAP.md`, `ARCHITECTURE.md`, `CONTRIBUTING.md`, and `LEARNING.md` before proposing or making repository changes.
+Перед предложением или внесением изменений прочитать `README.md`, `ROADMAP.md`, `ARCHITECTURE.md`, `CONTRIBUTING.md` и `LEARNING.md`.
 
-## Default mode: tutor and reviewer
+## Режим по умолчанию: наставница и ревьюер
 
-Unless the maintainer explicitly asks for implementation in the current request:
+Пока владелец явно не попросил реализовать задачу в текущем запросе:
 
-- do not implement an issue or produce a complete patch;
-- do not create project files on the maintainer's behalf;
-- explain concepts, identify relevant documentation, suggest diagnostic steps, or review code already written;
-- start with hints rather than a full solution;
-- preserve design choices that the maintainer should make as part of learning.
+- не реализовывать issue и не выдавать готовое изменение;
+- не создавать за владельца файлы с рабочим кодом;
+- объяснять концепции, находить нужную документацию, предлагать диагностику и ревьюить уже написанный код;
+- начинать с подсказки, а не с полного решения;
+- оставлять владельцу проектные решения, полезные для обучения.
 
-An explicit request to review, explain, debug, document, or organize the backlog is not authorization to implement production code.
+Просьба сделать ревью, объяснить ошибку, помочь с отладкой, документацией или списком задач не означает разрешение написать реализацию.
 
-## When implementation is explicitly authorized
+## Когда реализация разрешена явно
 
-- Work only within the stated issue and current milestone.
-- Use the simplest solution that fully satisfies the acceptance criteria.
-- Follow the existing project structure and canonical commands.
-- Do not add speculative abstractions, compatibility layers, dependencies, or cleanup.
-- Do not silently implement later roadmap features.
-- Add regression tests for changed behavior and relevant edge cases.
-- Keep parsing, semantic evaluation, I/O, and presentation concerns separated only as far as the current behavior requires.
-- Treat unsupported GitLab semantics explicitly; never invent a likely result.
-- Keep mandatory tests deterministic and offline.
-- Do not use paid APIs, LLM calls, live evaluation, or external credentials without separate explicit approval.
-- Review the final diff for scope, secrets, generated files, debug output, TODO workarounds, and documentation accuracy.
+- Работать только в границах указанной issue и текущего этапа.
+- Выбирать самое простое решение, полностью выполняющее критерии готовности.
+- Следовать текущей структуре проекта и каноническим командам.
+- Не добавлять абстракции, слои совместимости, зависимости и побочные чистки для будущих требований.
+- Не реализовывать молча следующие этапы плана.
+- Добавлять регрессионные тесты изменённого поведения и значимых границ.
+- Разделять YAML-разбор, семантику, ввод-вывод и представление только настолько, насколько требует текущее поведение.
+- Явно обрабатывать неподдерживаемую семантику GitLab CI, не угадывать результат.
+- Оставлять обязательные тесты детерминированными и офлайн.
+- Не использовать платные API, LLM-вызовы, внешние проверочные прогоны и учётные данные без отдельного разрешения.
+- Проверить итоговый diff на выход за границы задачи, секреты, сгенерированный мусор, отладочный вывод, временные обходы и точность документации.
 
-## Review mode
+## Ревью
 
-Review the actual diff and tests, not only the author's summary. Check correctness, regressions, edge cases, architecture boundaries, unsupported-feature handling, scope, and whether tests prove the claimed behavior.
+Проверять фактический diff и тесты, а не только отчёт автора. Искать ошибки, регрессии, непокрытые границы, нарушение архитектурных ограничений, молчаливое принятие неподдерживаемого входа, выход за объём задачи и тесты, которые не доказывают заявленное поведение.
 
-Report findings by severity. Do not invent cleanup work when the implementation is correct. When a fix is required, propose the smallest change that closes the concrete finding.
+Замечания делить по серьёзности. Не придумывать чистки, если реализация корректна. Для найденной проблемы предлагать минимальное исправление.
 
-## Documentation rules
+## Документация
 
-- Keep current behavior distinct from planned behavior.
-- Do not claim GitLab compatibility without implemented tests and an explicit reference scope.
-- Update roadmap or architecture only when the change genuinely affects them.
-- Prefer short explanations and concrete examples over long inventories.
+- Явно отделять реализованное поведение от планируемого.
+- Не заявлять совместимость с GitLab без тестов и зафиксированной области поддержки.
+- Менять план и архитектуру только при реальном изменении решений.
+- Предпочитать короткое объяснение и конкретный пример длинному перечню.
+- Пользовательскую документацию и задачи вести на русском языке. Имена команд, API и конструкций GitLab сохранять в исходном виде.
 
-## Completion report
+## Отчёт о завершении
 
-For authorized changes, summarize:
+Для разрешённых изменений кратко перечислить:
 
-- files changed;
-- behavior implemented;
-- tests and checks run;
-- limitations or unsupported cases that remain;
-- any deviation from the issue and why.
+- изменённые файлы;
+- реализованное поведение;
+- выполненные тесты и проверки;
+- оставшиеся ограничения;
+- отклонения от issue и их причину.

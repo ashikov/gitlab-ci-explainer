@@ -1,69 +1,69 @@
-# Learning mode
+# Режим обучения
 
-The project exists partly to restore hands-on Python skill. Shipping a tool written mostly by an agent would satisfy the product goal and fail the learning goal.
+Одна из целей проекта — вернуть практический навык Python. Инструмент, почти целиком написанный агентом, решит продуктовую задачу и провалит учебную.
 
-## Ownership rule
+## Кто пишет код
 
-The maintainer owns the first implementation attempt for each issue: reading the requirement, choosing data structures, writing code, running tests, and debugging the first failure.
+Первую попытку по каждой задаче делает владелец проекта: читает требования, выбирает структуры данных, пишет код, запускает тесты и разбирает первый сбой.
 
-AI is primarily used as:
+AI используется прежде всего как:
 
-- a tutor for Python concepts and standard-library behavior;
-- a guide to official GitLab and library documentation;
-- a source of small experiments or counterexamples;
-- a debugger for a clearly described failure;
-- a reviewer of code already written by the maintainer.
+- справочник по Python и стандартной библиотеке;
+- помощница в поиске официальной документации GitLab и библиотек;
+- источник маленьких экспериментов и контрпримеров;
+- помощница в диагностике конкретного сбоя;
+- ревьюер уже написанного кода.
 
-## Assistance ladder
+## Лестница помощи
 
-When stuck, use the least revealing level that can unblock the work:
+Если работа застряла, использовать минимально достаточный уровень подсказки:
 
-1. Restate the expected and actual behavior.
-2. Reduce the problem to a small failing example or test.
-3. Read the relevant traceback and primary documentation.
-4. Ask for an explanation of the concept or API without project code.
-5. Ask for a hint about the next diagnostic step.
-6. Ask for pseudocode or a partial outline.
-7. Ask for review of the maintainer's current attempt.
-8. Request a minimal targeted code fragment only after the earlier levels are insufficient.
+1. Сформулировать ожидаемое и фактическое поведение.
+2. Свести проблему к маленькому падающему примеру или тесту.
+3. Прочитать traceback и первичную документацию.
+4. Попросить объяснить концепцию или API без кода проекта.
+5. Попросить подсказать следующий диагностический шаг.
+6. Попросить псевдокод или неполный каркас.
+7. Отдать на ревью собственную текущую попытку.
+8. Запросить небольшой целевой фрагмент кода, только если предыдущего недостаточно.
 
-A complete generated implementation is an exception and requires an explicit request. Even then, it should be studied, rewritten where necessary, and covered by tests the maintainer understands.
+Полная сгенерированная реализация — исключение и требует прямого запроса. Такой код всё равно нужно разобрать, при необходимости переписать и покрыть понятными тестами.
 
-## A productive work session
+## Нормальная рабочая сессия
 
-A normal session should fit one small issue or one observable slice of it:
+Одна сессия должна помещать маленькую задачу или один наблюдаемый срез:
 
 ```text
-read issue
-  → write down expected behavior
-  → create a failing example
-  → implement
-  → run and debug
-  → review the diff
-  → note what was learned
+прочитать задачу
+  → своими словами записать ожидаемое поведение
+  → сделать падающий пример
+  → реализовать
+  → запустить и отладить
+  → проверить diff
+  → записать, что удалось понять
 ```
 
-Stop at a working boundary. Do not compensate for a difficult task by quietly expanding scope or adding abstractions.
+Останавливаться нужно на работающей границе. Сложность задачи не оправдывает незаметное расширение её объёма и абстракции «на будущее».
 
-## Definition of learning done
+## Когда обучение по задаче завершено
 
-An issue is complete only when the maintainer can explain:
+Нужно уметь объяснить:
 
-- what inputs are accepted and rejected;
-- why the chosen representation fits the current behavior;
-- which edge cases the tests protect;
-- what failure mode was hardest to diagnose;
-- what would need to change for the next roadmap feature.
+- какой вход принимается и отклоняется;
+- почему выбранное представление подходит текущему поведению;
+- какие границы защищают тесты;
+- какой сбой было сложнее всего диагностировать;
+- что придётся изменить для следующего этапа плана.
 
-Perfect recall is not required. Copying code that cannot be explained is not completion.
+Помнить всё наизусть не требуется. Скопированный код, который нельзя объяснить, не считается завершённой работой.
 
-## Review questions
+## Вопросы перед pull request
 
-Before opening a pull request, answer briefly:
+Коротко ответить:
 
-- What did I decide myself?
-- What did AI help with?
-- Which test gives me the most confidence?
-- What still feels unclear?
+- Что я решил сам?
+- С чем помог AI?
+- Какой тест даёт больше всего уверенности?
+- Что пока остаётся непонятным?
 
-These are prompts for reflection, not bureaucracy. A few honest sentences are enough.
+Это не бюрократия. Нескольких честных предложений достаточно.

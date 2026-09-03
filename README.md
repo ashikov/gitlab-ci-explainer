@@ -1,27 +1,27 @@
 # gitlab-ci-explainer
 
-> Explain why GitLab CI jobs run, skip, and depend on each other.
+> Объясняет, почему job GitLab CI запускаются, пропускаются и зависят друг от друга.
 
-`gitlab-ci-explainer` is a local-first Python CLI for turning GitLab CI configuration into deterministic, inspectable explanations.
+`gitlab-ci-explainer` — локальный CLI на Python, который преобразует конфигурацию GitLab CI в детерминированное и проверяемое объяснение.
 
 > [!IMPORTANT]
-> **Status: pre-alpha.** The repository currently contains the project design and implementation backlog. There is no working CLI yet.
+> **Статус: проектирование.** В репозитории пока есть документация и задачи на реализацию. Рабочего CLI ещё нет.
 
-## Why
+## Зачем нужен проект
 
-A pipeline can be valid and still be difficult to understand:
+Валидный pipeline не всегда понятен. По одному YAML бывает сложно ответить:
 
-- Why did a job appear or disappear?
-- Which `rules` entry matched?
-- Where did an effective variable value come from?
-- Which `include`, default, or parent job changed the final configuration?
-- Why can one job start immediately while another waits for an entire stage?
+- почему job появилась или исчезла;
+- какое условие `rules` сработало;
+- откуда пришло эффективное значение переменной;
+- какой `include`, `default` или родительская job изменили итоговую конфигурацию;
+- почему одна job может стартовать сразу, а другая ждёт завершения этапа.
 
-Reading raw YAML is not enough once configuration composition and evaluation start interacting. This project aims to expose the intermediate facts and the reason behind each result instead of guessing or producing an opaque verdict.
+Инструмент должен показывать промежуточные факты и причины результата, а не угадывать правдоподобный ответ.
 
-## Planned interface
+## Планируемый интерфейс
 
-The first useful version is intentionally small. Given one local file:
+Первая полезная версия намеренно мала. Для одного локального файла:
 
 ```yaml
 stages: [build, test, deploy]
@@ -41,7 +41,7 @@ deploy:
   script: ./deploy.sh
 ```
 
-it should produce a stable summary similar to:
+команда должна выдавать стабильную сводку примерно такого вида:
 
 ```console
 $ ci-explain summary .gitlab-ci.yml
@@ -51,45 +51,45 @@ test    test     build
 deploy  deploy   test
 ```
 
-This is target UX, not current output.
+Это целевой интерфейс, а не уже реализованный результат.
 
-## First milestone
+## Первый этап
 
-Version `0.1` will only:
+Версия `0.1` должна уметь:
 
-- read one local YAML file;
-- classify global configuration, runnable jobs, and hidden job definitions;
-- determine effective stages;
-- normalize same-pipeline `needs` dependencies;
-- print a deterministic text summary;
-- report invalid or unsupported input clearly.
+- читать один локальный YAML-файл;
+- различать глобальную конфигурацию, запускаемые job и скрытые шаблоны;
+- определять эффективные этапы;
+- нормализовать поддерживаемые зависимости `needs` внутри одного pipeline;
+- печатать детерминированную текстовую сводку;
+- понятно сообщать о невалидном и пока не поддерживаемом входе.
 
-Not included in `0.1`: `include`, `extends`, `rules` evaluation, GitLab API access, remote content, a web service, or AI-generated explanations.
+В `0.1` не входят `include`, `extends`, вычисление `rules`, GitLab API, удалённые файлы, веб-сервис и AI-объяснения.
 
-## Principles
+## Принципы
 
-**Deterministic core.** The same input and context must produce the same result.
+**Детерминированное ядро.** Один вход и один контекст всегда дают один результат.
 
-**Evidence before prose.** An explanation should be built from parsed facts and provenance, not generated as a plausible story.
+**Сначала факты, потом текст.** Объяснение строится из разобранных данных и их происхождения, а не генерируется как правдоподобная история.
 
-**Local first.** Network access is added only when a feature truly requires it.
+**Сначала локальная работа.** Сеть добавляется только там, где без неё нельзя реализовать конкретную возможность.
 
-**Explicit compatibility.** Unsupported GitLab features must be reported, not silently ignored.
+**Явная совместимость.** Неподдерживаемый синтаксис нельзя молча игнорировать.
 
-**Simple design.** No plugin framework, service layer, database, or speculative abstractions before there is a concrete need.
+**Простая архитектура.** Никаких плагинов, сервиса, базы данных и абстракций «на будущее» без реальной необходимости.
 
-**Learning first.** The maintainer writes the implementation. AI is primarily a tutor, research assistant, debugger, and reviewer.
+**Обучение важнее скорости.** Реализацию пишет владелец проекта. AI используется прежде всего как справочник, наставница, помощница в диагностике и ревьюер.
 
-## Documentation
+## Документация
 
-- [Roadmap](ROADMAP.md) — ordered milestones and release boundaries.
-- [Architecture](ARCHITECTURE.md) — system boundaries, processing model, and design constraints.
-- [Contributing](CONTRIBUTING.md) — development and pull request workflow.
-- [Learning mode](LEARNING.md) — how to use AI without outsourcing the programming practice.
-- [AI assistant instructions](AGENTS.md) — repository rules for coding agents.
+- [План развития](ROADMAP.md) — порядок этапов и границы версий.
+- [Архитектура](ARCHITECTURE.md) — модель обработки, ограничения и инварианты.
+- [Участие в разработке](CONTRIBUTING.md) — рабочий процесс и требования к pull request.
+- [Режим обучения](LEARNING.md) — как использовать AI и не отдать ему практику программирования.
+- [Инструкции для AI-агентов](AGENTS.md) — правила работы с репозиторием.
 
-Implementation starts in the [Milestone 1 tracker](/ashikov/gitlab-ci-explainer/issues/2). Work through its issues in order and keep each pull request limited to one task.
+Работа над реализацией ведётся в [GitHub Issues](https://github.com/ashikov/gitlab-ci-explainer/issues). Начинать нужно с первой незаблокированной задачи текущего этапа и ограничивать один pull request одной задачей.
 
-## Project boundary
+## Граница проекта
 
-This tool is not intended to execute job scripts, replace GitLab Runner, or become a second CI system. It should explain the configuration GitLab would use within an explicitly documented compatibility scope.
+Инструмент не выполняет `script`, не заменяет GitLab Runner и не становится вторым CI-сервисом. Он объясняет конфигурацию GitLab CI только в явно документированной области совместимости.

@@ -1,69 +1,69 @@
-# Contributing
+# Участие в разработке
 
-This repository is both a real tool and a deliberate Python practice project. Correctness matters, but the maintainer's understanding is part of the result.
+Этот репозиторий одновременно создаёт полезный инструмент и даёт практику Python. Важна не только корректность результата, но и понимание написанного кода.
 
-## Before starting
+## Перед началом
 
-1. Read [README.md](README.md), [ROADMAP.md](ROADMAP.md), and [ARCHITECTURE.md](ARCHITECTURE.md).
-2. Pick the first unblocked issue in the current milestone.
-3. Restate the required behavior and edge cases before choosing an implementation.
-4. Keep the pull request limited to that issue.
+1. Прочитать [README.md](README.md), [ROADMAP.md](ROADMAP.md) и [ARCHITECTURE.md](ARCHITECTURE.md).
+2. Выбрать первую незаблокированную задачу текущего этапа.
+3. До реализации своими словами записать ожидаемое поведение и важные границы.
+4. Ограничить pull request одной задачей.
 
-Do not implement later roadmap features “while already in the area.” A smaller complete change is preferred to a broader speculative design.
+Не реализовывать следующую часть плана только потому, что «она рядом». Маленькое законченное изменение лучше широкого задела на будущее.
 
-## Development loop
+## Рабочий цикл
 
-For each behavior:
+Для каждого поведения:
 
-1. Add or identify a test that fails for the right reason.
-2. Implement the simplest complete solution.
-3. Make the relevant tests pass.
-4. Refactor only when the tests are green and the change improves the current code.
-5. Run the repository's canonical checks.
-6. Review the final diff for accidental files, secrets, debug output, unrelated cleanup, and unsupported claims.
+1. Добавить или найти тест, который падает по правильной причине.
+2. Написать самое простое полное решение.
+3. Добиться прохождения связанных тестов.
+4. Рефакторить только на зелёных тестах и только ради текущего кода.
+5. Запустить канонические проверки репозитория.
+6. Просмотреть итоговый diff: лишние файлы, секреты, отладочный вывод, несвязанные чистки и неподтверждённые обещания.
 
-The first implementation issue will establish the Python environment and canonical commands. Once those commands exist, document one normal path for setup, tests, linting, formatting, and the full local check. Avoid overlapping toolchains that solve the same problem.
+Первая задача на реализацию зафиксирует окружение Python и канонические команды. После этого в проекте должен остаться один обычный путь для установки, тестов, линтинга, форматирования и общей проверки. Дублирующие инструменты не нужны.
 
-## Tests
+## Тесты
 
-Every issue should cover its observable acceptance criteria. Add regression tests for bugs and edge cases that could silently change an explanation.
+Каждая задача покрывает тестами свои наблюдаемые критерии готовности. Подтверждённый баг получает регрессионный тест.
 
-Prefer compact fixtures that demonstrate one domain rule. Do not copy a large production pipeline into the repository when a minimal example proves the same behavior.
+Предпочтительны маленькие примеры, которые доказывают одно правило. Не нужно копировать большой рабочий pipeline, когда достаточно нескольких строк YAML.
 
-Mandatory tests must be deterministic, offline, and free of credentials. Live GitLab checks belong in a separate optional workflow when they become necessary.
+Обязательные тесты должны быть детерминированными, работать без сети и не требовать учётных данных. Внешние проверки GitLab, когда они действительно понадобятся, запускаются отдельно.
 
-## Commits and pull requests
+## Коммиты и pull request
 
-Use focused branches such as:
-
-```text
-issue-12-normalize-needs
-```
-
-Use Conventional Commits, for example:
+Для ветки достаточно понятного имени:
 
 ```text
-feat: normalize same-pipeline needs
-fix: reject non-mapping pipeline root
-test: cover hidden job classification
+issue-7-normalize-needs
 ```
 
-Keep commits understandable and avoid mixing independent changes. A pull request should explain:
+Использовать Conventional Commits:
 
-- the behavior added or changed;
-- the main design decision;
-- edge cases considered;
-- tests and commands run;
-- what the author learned or still finds unclear.
+```text
+feat: нормализовать зависимости needs
+fix: отклонять список в корне pipeline
+test: покрыть классификацию скрытых job
+```
 
-The pull request template contains the expected structure.
+Коммиты должны быть самостоятельными и не смешивать независимые изменения. В pull request кратко указать:
 
-## Documentation
+- какое поведение добавлено или изменено;
+- какое решение принято и почему его достаточно;
+- какие границы проверены;
+- какие команды и тесты выполнены;
+- что удалось понять и что пока осталось неясным.
 
-Update documentation when behavior, scope, commands, output, compatibility, or architecture changes. Do not claim support for a feature based only on successful YAML parsing; support means the relevant semantics are implemented and tested.
+Структура уже есть в шаблоне pull request.
 
-## AI assistance
+## Документация
 
-Follow [LEARNING.md](LEARNING.md) and [AGENTS.md](AGENTS.md). AI may explain concepts, locate primary documentation, suggest experiments, diagnose a traceback, and review a patch. The default is not to hand an entire issue to a coding agent.
+Обновлять документацию при изменении поведения, объёма поддержки, команд, вывода, совместимости или архитектурных границ. Успешный разбор YAML ещё не означает поддержку семантики конструкции GitLab CI.
 
-External paid APIs, LLM-backed features, or live evaluation runs require explicit maintainer approval before use.
+## Использование AI
+
+Следовать [LEARNING.md](LEARNING.md) и [AGENTS.md](AGENTS.md). AI может объяснять Python и API библиотек, находить первичные источники, предлагать диагностические эксперименты, разбирать traceback и ревьюить уже написанный код. По умолчанию нельзя отдавать coding-agent целую задачу на реализацию.
+
+Платные API, LLM-функции и реальные проверочные прогоны требуют отдельного явного разрешения.

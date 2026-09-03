@@ -1,112 +1,110 @@
-# Roadmap
+# План развития
 
-The roadmap is ordered. Each milestone should leave the project usable at a new level without requiring unfinished work from later milestones.
+Этапы идут последовательно. Каждый из них должен завершаться полезным и проверяемым состоянием проекта, не зависящим от незаконченной работы следующего этапа.
 
-Later milestones are intentionally described at a higher level. They should be split into implementation issues only after the previous milestone validates the underlying model.
+Поздние этапы описаны крупнее намеренно. Разбивать их на подробные задачи стоит только после проверки модели на предыдущем этапе.
 
-## Milestone 1 — First useful local CLI (`0.1`)
+## Этап 1 — первый полезный локальный CLI (`0.1`)
 
-**Goal:** inspect one local `.gitlab-ci.yml` file and print a trustworthy structural summary.
+**Цель:** прочитать один локальный `.gitlab-ci.yml` и вывести надёжную структурную сводку.
 
-Implementation is tracked in [Milestone 1: first useful local CLI](/ashikov/gitlab-ci-explainer/issues/2).
+Задачи выполняются по порядку:
 
-Planned work:
+1. #3 — подготовить минимальный каркас Python-проекта.
+2. #4 — безопасно загрузить локальный GitLab CI YAML.
+3. #5 — классифицировать элементы верхнего уровня.
+4. #6 — определить эффективные этапы запускаемых job.
+5. #7 — нормализовать зависимости `needs` внутри pipeline.
+6. #8 — добавить детерминированную команду `summary`.
+7. #9 — зафиксировать диагностику CLI и коды возврата.
+8. #10 — завершить сквозной контракт `v0.1`.
 
-1. Establish a minimal Python package, test runner, linting, and the `ci-explain` command.
-2. Load a local YAML file and distinguish malformed input from file-system errors.
-3. Classify top-level entries as global configuration, runnable jobs, or hidden job definitions.
-4. Parse stage order and determine each job's effective stage.
-5. Normalize supported same-pipeline `needs` forms.
-6. Render stable human-readable output.
-7. Define user-facing errors and exit behavior.
-8. Add end-to-end fixtures and document the working CLI.
+Этап завершён, когда после свежего клонирования можно по документации запустить CLI на валидных и невалидных примерах, а всё поддерживаемое поведение покрыто автоматическими тестами.
 
-The milestone is complete when a fresh clone can run a documented command against representative valid and invalid fixtures, and every supported result is covered by automated tests.
+Не входят: сборка конфигурации из нескольких файлов, вычисление правил, GitLab API, удалённые источники, визуализация графа и AI-объяснения.
 
-Out of scope: configuration composition, rule evaluation, GitLab API calls, remote content, graph rendering, and exact emulation of every GitLab version.
+## Этап 2 — собрать локальную конфигурацию (`0.2`)
 
-## Milestone 2 — Resolve local configuration (`0.2`)
+**Цель:** объяснять эффективную конфигурацию, собранную из файлов и переиспользуемых определений job в одном репозитории.
 
-**Goal:** explain the effective configuration assembled from files and reusable job definitions stored in one repository.
+Планируемые возможности:
 
-Planned capabilities:
+- локальные `include` с защитой от циклов и выхода за корень проекта;
+- детерминированное слияние по правилам GitLab;
+- скрытые шаблоны и цепочки `extends`;
+- `default` и `inherit`;
+- происхождение унаследованных и переопределённых значений;
+- явная диагностика неподдерживаемых видов `include` и конструкций слияния.
 
-- local `include` resolution with cycle and path-boundary protection;
-- deterministic GitLab-style merge behavior;
-- hidden job definitions and `extends` chains;
-- `default` and `inherit` handling;
-- provenance for inherited and overridden values;
-- explicit diagnostics for unsupported include kinds or merge constructs.
+Этап завершён, когда инструмент показывает не только эффективное значение, но и источник этого значения.
 
-The milestone is complete when the tool can show both a resolved value and where that value came from.
+## Этап 3 — объяснить выбор job (`0.3`)
 
-## Milestone 3 — Explain job selection (`0.3`)
+**Цель:** отвечать, почему job включена, исключена, переведена в `manual`, отложена или получила `allow_failure` в заданном контексте pipeline.
 
-**Goal:** answer why a job is included, excluded, manual, delayed, or allowed to fail for a supplied pipeline context.
+Планируемые возможности:
 
-Planned capabilities:
+- явный контекст: источник pipeline, ветка, тег, переменные и изменённые файлы;
+- слои переменных и документированный приоритет;
+- ограниченный поднабор выражений `rules:if`;
+- `rules:changes` и `rules:exists`, когда необходимые данные доступны локально;
+- вычисление первого совпавшего правила с доказательствами;
+- `workflow:rules` до вычисления правил job;
+- явная обработка устаревающих `only` и `except`.
 
-- an explicit pipeline context such as source, branch, tag, variables, and changed files;
-- variable layers and documented precedence;
-- a focused subset of `rules:if` expressions;
-- `rules:changes` and `rules:exists` where the required local evidence is available;
-- first-match rule evaluation with evidence;
-- `workflow:rules` before job-level evaluation;
-- explicit treatment of deprecated `only` and `except` syntax.
+Неподдерживаемое выражение должно давать результат «не поддерживается», а не выдуманное `true` или `false`.
 
-Unsupported expressions must produce an `unsupported` result rather than an invented decision.
+## Этап 4 — объяснить зависимости выполнения (`0.4`)
 
-## Milestone 4 — Explain execution dependencies (`0.4`)
+**Цель:** сделать понятным взаимодействие этапов и DAG.
 
-**Goal:** make stage and DAG behavior easy to inspect.
+Планируемые возможности:
 
-Planned capabilities:
+- нормализованный граф из этапов и `needs`;
+- диагностика отсутствующих зависимостей и циклов;
+- метаданные необязательных зависимостей и зависимостей артефактов;
+- запросы по одной job, её предпосылкам и зависимым job;
+- детерминированный текстовый и машиночитаемый вывод;
+- экспорт DOT после стабилизации внутренней модели графа.
 
-- a normalized graph derived from stages and `needs`;
-- missing-dependency and cycle diagnostics;
-- optional and artifact-related dependency metadata;
-- queries for one job, its prerequisites, and its dependants;
-- deterministic text and machine-readable output;
-- optional DOT export after the internal graph proves stable.
+## Этап 5 — интегрироваться с GitLab (`0.5`)
 
-## Milestone 5 — Integrate with GitLab (`0.5`)
+**Цель:** анализировать реальные репозитории, не связывая детерминированное ядро с сетью.
 
-**Goal:** analyze real repositories without making the deterministic core depend on the network.
+Планируемые возможности:
 
-Planned capabilities:
+- явные профили совместимости с версиями GitLab;
+- project-, remote-, template- и component-`include`, где это реализуемо надёжно;
+- узкая граница работы с GitLab API;
+- аутентификация, кэширование, таймауты и безопасное логирование;
+- необязательное сравнение с GitLab CI Lint как дополнительная проверка;
+- обезличенные тестовые примеры из реальных конфигураций.
 
-- explicit GitLab compatibility profiles;
-- project, remote, template, and component includes where feasible;
-- GitLab API access behind a narrow boundary;
-- authentication, caching, timeouts, and secret-safe logging;
-- optional comparison with GitLab CI Lint as verification evidence;
-- fixtures captured from real-world configurations without committing secrets.
+Локальный анализ должен работать без учётных данных и сети.
 
-Local analysis remains available without credentials or network access.
+## Этап 6 — стабильный выпуск (`1.0`)
 
-## Milestone 6 — Stable release (`1.0`)
+**Цель:** выпустить небольшой надёжный инструмент с понятным контрактом совместимости.
 
-**Goal:** publish a small, dependable tool with a documented compatibility contract.
+Критерии выпуска:
 
-Release criteria:
+- стабильные контракты CLI и вывода;
+- политика поддерживаемых версий Python;
+- матрица поддерживаемых возможностей и версий GitLab;
+- документация по установке и упаковка;
+- регрессионные тесты всей заявленной семантики;
+- проверка безопасности файловых и сетевых границ;
+- выбранная открытая лицензия;
+- заметки о миграции для несовместимых изменений до `1.0`.
 
-- stable CLI and output contracts;
-- a supported Python-version policy;
-- an explicit GitLab feature and version matrix;
-- packaging and installation documentation;
-- regression coverage for supported semantics;
-- security review of file and network boundaries;
-- a selected open-source license;
-- migration notes for any pre-`1.0` breaking changes.
+## Отложенные идеи
 
-## Deferred ideas
+Это не обязательства плана развития:
 
-These are not roadmap commitments:
+- интерактивный TUI или веб-интерфейс;
+- интеграции с редакторами;
+- комментарии в pull request и merge request;
+- оценка риска изменения pipeline;
+- естественно-языковая сводка поверх уже рассчитанной модели объяснения.
 
-- interactive TUI or web UI;
-- editor integrations;
-- pull request or merge request comments;
-- risk scoring for pipeline changes;
-- natural-language summaries generated from an already computed explanation model.
-
-An LLM must never become the source of truth for parsing, resolution, or rule evaluation.
+LLM не должен становиться источником истины для разбора, сборки конфигурации и вычисления правил.
